@@ -40,22 +40,16 @@ jobs:
     # run only when code is compiling and tests are passing
     runs-on: ubuntu-latest
     needs: ['build', 'test-stage']
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
 
     # steps to perform in job
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
-      # setup Docker buld action
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@v2
-
-      - name: Login to DockerHub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USER }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Login to Github Packages
         uses: docker/login-action@v2
